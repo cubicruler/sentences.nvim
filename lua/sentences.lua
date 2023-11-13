@@ -1,5 +1,5 @@
 -- main module file
-local module = require("plugin_name.module")
+local module = require("sentences.module")
 
 ---@class Config
 ---@field opt string Your config option
@@ -20,8 +20,8 @@ M.setup = function(args)
   M.config = vim.tbl_deep_extend("force", M.config, args or {})
 end
 
-M.hello = function()
-  module.my_first_function()
+M.highlight_sentence = function()
+  module.highlight_sentence()
 end
 
 return M

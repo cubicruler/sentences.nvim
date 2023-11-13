@@ -8,9 +8,11 @@ M.highlight_sentence = function()
   local line = api.nvim_get_current_line()
   local col = api.nvim_win_get_cursor(0)[2]
 
-  -- Find the start and end of the sentence
-  local start_col = line:sub(1, col):find("%S[^.]*.$")
-  local end_col = col + line:sub(col):find("^.-%.") - 1
+  -- Find the start and end of the sentence using sentence movement commands
+  api.nvim_command("normal! (")
+  local start_col = api.nvim_win_get_cursor(0)[2]
+  api.nvim_command("normal! )")
+  local end_col = api.nvim_win_get_cursor(0)[2]
 
   -- Get the current buffer
   local buf = api.nvim_get_current_buf()
@@ -20,6 +22,9 @@ M.highlight_sentence = function()
 
   -- Add new highlight
   api.nvim_buf_add_highlight(buf, -1, "Error", api.nvim_win_get_cursor(0)[1] - 1, start_col - 1, end_col)
+
+  -- Move cursor to its original position
+  api.nvim_win_set_cursor(0, {line, col})
 end
 
 return M
